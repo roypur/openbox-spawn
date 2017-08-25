@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Openbox-spawn
-Exec=/usr/bin/openbox --startup /var/openbox-login/spawn
+Exec=/var/openbox-spawn/wrapper
 Icon=openbox
 NoDisplay=true
