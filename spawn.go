@@ -1,6 +1,8 @@
 package main
 import("os/exec"
+       "os/user"
        "fmt"
+       "strings"
        "encoding/json"
        "io/ioutil"
        "sync")
@@ -15,23 +17,43 @@ func main(){
         fmt.Println(err)
         return
     }
-    var cmds [][]string
+    var globalCmds [][]string
 
-    err = json.Unmarshal(data, &cmds)
+    err = json.Unmarshal(data, &globalCmds)
 
     if err != nil{
         fmt.Println(err)
         return
     }
-/*
-    cmds = append(cmds, []string{"/usr/bin/tint2"})
-    cmds = append(cmds, []string{"/usr/bin/nm-applet"})
-    cmds = append(cmds, []string{"/usr/bin/xset", "-dpms"})
-    cmds = append(cmds, []string{"/usr/bin/xset", "s", "off"})
-    cmds = append(cmds, []string{"/usr/bin/xsetroot", "-solid", "#0d0d0d"})
-*/
-    wg.Add(len(cmds))
-    for _,v := range cmds{
+
+    usr, err := user.Current()
+
+    if err != nil{
+        fmt.Println(err)
+        return
+    }
+    wg.Add(len(globalCmds))
+
+    var userCmds [][]string
+    if len(usr.HomeDir) > 0{
+        homeFolder := strings.TrimRight(usr.HomeDir, "/")
+        data, err = ioutil.ReadFile(homeFolder + "/.config/openbox-spawn.json")
+        if err != nil{
+            fmt.Println(err)
+        }else{
+            err = json.Unmarshal(data, &userCmds)
+            if err != nil{
+                fmt.Println(err)
+                return
+            }
+        }
+        wg.Add(len(userCmds))
+    }
+
+    for _,v := range globalCmds{
+        go waitExec(v)
+    }
+    for _,v := range userCmds{
         go waitExec(v)
     }
     wg.Wait()

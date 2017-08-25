@@ -6,4 +6,13 @@ To install run
 curl "https://raw.githubusercontent.com/roypur/openbox-spawn/master/install.sh" | bash
 ```
 
-To configure what starts with openbox modify /var/openbox-spawn/config.json
+The global config file for openbox-spawn is at
+```bash
+/var/openbox-spawn/config.json
+```
+
+You can have a separate config file for each user at
+
+```bash
+$HOME/.config/openbox-spawn.json
+```
