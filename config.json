@@ -1,0 +1,7 @@
+[
+    ["/usr/bin/tint2"],
+    ["/usr/bin/nm-applet"],
+    ["/usr/bin/xset", "-dpms"],
+    ["/usr/bin/xset", "s", "off"],
+    ["/usr/bin/xsetroot", "-solid", "#0d0d0d"]
+]
