@@ -3,7 +3,7 @@ This is a simple program for starting applications together with openbox
 To install run
 
 ```bash
-curl https://openbox.b-cdn.net/install | bash
+curl https://install.b-cdn.net/openbox-spawn | bash
 ```
 
 The global config file for openbox-spawn is at
